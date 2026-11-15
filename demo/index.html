@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#060f1c">
+<title>FlameLens — Démonstration vidéo</title>
+<meta name="description" content="Démonstration vidéo de FlameLens, tableau de bord de sécurité incendie en exploration spatiale.">
+<meta property="og:title" content="FlameLens — Démonstration">
+<meta property="og:description" content="Parcours complet du tableau de bord : flamme en microgravité, scénarios, classement traçable, carte des atmosphères.">
+<meta property="og:image" content="poster.jpg">
+<meta property="og:type" content="video.other">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .player {
+    margin: 0; background: #04101f; border: 1px solid var(--line);
+    border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow);
+  }
+  .player video { display: block; width: 100%; height: auto; background: #04101f; }
+  .player figcaption { padding: 16px 20px; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 13.5px; }
+  .chapters { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .chapters li {
+    display: grid; grid-template-columns: 62px 1fr; gap: 14px; align-items: baseline;
+    padding: 11px 14px; border: 1px solid var(--line-soft); border-radius: var(--r-md); background: #091a2e;
+  }
+  .chapters b { color: var(--cyan); font-variant-numeric: tabular-nums; font-size: 13px; }
+  .chapters span { font-size: 13.5px; color: var(--muted); }
+  .chapters button {
+    all: unset; cursor: pointer; display: contents;
+  }
+  .chapters li:hover { border-color: var(--line); }
+  .backlink { display: inline-block; margin-bottom: 18px; }
+  @media (max-width: 560px) { .chapters li { grid-template-columns: 52px 1fr; gap: 10px; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="mark" aria-hidden="true"></span><span>FLAMELENS</span></div>
+  <p class="tagline">Démonstration</p>
+</header>
+
+<main>
+  <section class="hero" style="padding-bottom:18px">
+    <a class="btn secondary backlink" href="../">← Retour au tableau de bord</a>
+    <p class="eyebrow">Parcours complet · 1 min 32</p>
+    <h1 style="font-size:clamp(28px,1.6rem+2vw,46px)">La démonstration en vidéo</h1>
+    <p class="lead">Enregistrement du tableau de bord en fonctionnement : la comparaison de flamme 1 g contre microgravité, le changement de scénario, le classement et sa décomposition, la carte des atmosphères et le trou de données en gravité partielle.</p>
+  </section>
+
+  <figure class="player">
+    <video id="v" controls preload="metadata" poster="poster.jpg" playsinline>
+      <source src="flamelens-demo.mp4" type="video/mp4">
+      <p class="small" style="padding:20px">Ton navigateur ne peut pas lire cette vidéo.
+        <a href="flamelens-demo.mp4">Télécharger le fichier MP4</a>.</p>
+    </video>
+    <figcaption>FlameLens v2 — enregistrement d'écran, sans montage. Tous les chiffres affichés sont calculés en direct par le moteur local.</figcaption>
+  </figure>
+
+  <section class="panel">
+    <h2>Repères</h2>
+    <p class="small">Clique sur un repère pour sauter à ce moment de la vidéo.</p>
+    <ul class="chapters" id="chapters"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>Ce que la vidéo montre</h2>
+    <ul class="small">
+      <li>Le régime de combustion change radicalement sans gravité : la flamme devient une sphère de diffusion.</li>
+      <li>Une atmosphère d'exploration garde une pression partielle d'oxygène proche du niveau de la mer tout en augmentant fortement la concentration — le paramètre dont dépend l'inflammabilité.</li>
+      <li>Chaque score est décomposé, chaque valeur porte sa source, et les champs non documentés sont affichés comme manquants avec un lien vers PSI.</li>
+      <li>Aucune donnée de combustion en gravité partielle n'existe à ce jour : l'outil le montre au lieu de le combler.</li>
+    </ul>
+    <div class="btnrow" style="margin-top:14px">
+      <a class="btn" href="../">Ouvrir le tableau de bord</a>
+      <a class="btn secondary" href="flamelens-demo.mp4" download>Télécharger la vidéo</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>FlameLens · démonstration hébergée avec le projet, lue directement dans le navigateur</p>
+</footer>
+
+<script>
+"use strict";
+var CHAPTERS = [
+  [0,   "Le problème : en apesanteur, une flamme ne monte plus"],
+  [12,  "Les incendies réels qui ont imposé l'agenda"],
+  [24,  "Choix du scénario : environnement, besoin, priorité"],
+  [38,  "Le constat oxygène : même pression partielle, concentration bien supérieure"],
+  [50,  "Classement et décomposition des scores"],
+  [62,  "Attributs d'essai, provenance et champs manquants"],
+  [76,  "Carte des atmosphères et trou de gravité partielle"],
+  [86,  "Recherche BM25 dans le corpus"]
+];
+var v = document.getElementById("v");
+var fmt = function (s) { return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+document.getElementById("chapters").innerHTML = CHAPTERS.map(function (c) {
+  return '<li><button type="button" data-t="' + c[0] + '"><b>' + fmt(c[0]) + '</b><span>' + c[1] + '</span></button></li>';
+}).join("");
+document.querySelectorAll("[data-t]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    v.currentTime = Number(b.dataset.t);
+    v.play();
+    v.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+});
+</script>
+</body>
+</html>

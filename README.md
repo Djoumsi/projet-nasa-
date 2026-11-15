@@ -5,7 +5,10 @@ combustion en microgravité. Il trie, explique et confronte ce corpus à chaque
 environnement habité prévu : station, véhicule, base lunaire, rover pressurisé,
 combinaison, habitat martien.
 
-**Démo : https://djoumsi.github.io/projet-nasa-/**
+**Démo en ligne : https://djoumsi.github.io/projet-nasa-/**
+**Vidéo de démonstration (1 min 32) : https://djoumsi.github.io/projet-nasa-/demo/**
+
+[![Démonstration FlameLens](demo/poster.jpg)](https://djoumsi.github.io/projet-nasa-/demo/)
 
 Défi NASA Space Apps traité : tableau de bord interactif qui résume, classe et
 interprète les résultats de combustion en microgravité pour en tirer des
@@ -62,6 +65,7 @@ aucun appel réseau — les liens externes ne s'ouvrent que si l'utilisateur cli
 
 ```
 index.html        structure et sections
+demo/             page de lecture, vidéo MP4 et vignette
 css/style.css     feuille de style unique
 js/data.js        base de connaissances, provenance par champ
 js/engine.js      pression partielle, classement, BM25, exports
